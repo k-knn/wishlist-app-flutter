@@ -16,25 +16,29 @@ class _HomePageState extends State<HomePage> {
     {
       "title": "Item 1",
       "subTitle": "This is item 1",
+      "status": "false",
     },
     {
       "title": "Item 2",
       "subTitle": "This is item 2",
+      "status": "false",
     },
     {
       "title": "Item 3",
       "subTitle": "This is item 3",
+      "status": "false",
     },
     {
       "title": "Item 4",
       "subTitle": "This is item 4",
+      "status": "false",
     },
   ];
 
   @override
   Widget build(BuildContext context) {
     var bookmarkBloc = Provider.of<BookmarkBloc>(context); //pass provider
-    // ItemModel itemModel = new ItemModel(title: title, subTitle: subTitle)
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepOrange,
@@ -44,11 +48,10 @@ class _HomePageState extends State<HomePage> {
         actions: [
           Row(
             children: [
-              Text(bookmarkBloc.count.toString(),
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w500
-              ),),
+              Text(
+                bookmarkBloc.count.toString(),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+              ),
             ],
           ),
           IconButton(
@@ -84,12 +87,20 @@ class _HomePageState extends State<HomePage> {
                         subTitle: itemsList[index]['subTitle']);
 
                     bookmarkBloc.addItems(
-                       itemsModel); // add item count in bookmark provider
-                    print(bookmarkBloc.wishlist[index].title);
+                        itemsModel); // add item count in bookmark provider
+                    //print(bookmarkBloc.wishlist[index].title);
+                    setState(() {
+                      itemsList[index]["status"] = "true";
+                    });
                   },
                   title: Text(itemsList[index]['title']),
                   subtitle: Text(itemsList[index]['subTitle']),
-                  trailing: Icon(Icons.add),
+                  trailing: itemsList[index]["status"] == "false"
+                      ? Icon(Icons.star_border_outlined)
+                      : Icon(
+                          Icons.star,
+                          color: Colors.deepOrange,
+                        ),
                 );
               },
             ),
